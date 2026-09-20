@@ -580,8 +580,30 @@
     .c-value { font-size: 0.9rem; font-weight: 500; }
 
     /* ─────────────────────────────────────────
-       FOOTER
+       BACK TO TOP
     ───────────────────────────────────────── */
+    .back-to-top {
+      position: fixed; bottom: 2rem; right: 2rem;
+      z-index: 999;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; border: none;
+      font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px var(--glow);
+      opacity: 0; pointer-events: none;
+      transform: translateY(16px);
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s;
+    }
+    .back-to-top.visible {
+      opacity: 1; pointer-events: all;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      box-shadow: 0 8px 30px rgba(108,99,255,0.6);
+      transform: translateY(-3px);
+    }
     footer {
       position: relative; z-index: 1;
       text-align: center;
@@ -1031,6 +1053,9 @@
   </div>
 </section>
 
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
 <!-- ─── FOOTER ─── -->
 <footer>
   <p>Designed &amp; Built by <span>Janarthanan B</span> &nbsp;·&nbsp; 2026</p>
@@ -1054,6 +1079,12 @@
       document.getElementById('navLinks').classList.remove('open');
       document.getElementById('hamburger').classList.remove('open');
     });
+  });
+
+  /* ── Back to top ── */
+  const backBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backBtn.classList.toggle('visible', window.scrollY > 400);
   });
 
   /* ── Navbar scroll effect ── */
