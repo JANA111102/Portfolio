@@ -97,9 +97,9 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       letter-spacing: -0.5px;
     }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links { display: flex; gap: 1.4rem; list-style: none; align-items: center; }
     .nav-links a {
-      font-size: 0.9rem; font-weight: 500;
+      font-size: 0.85rem; font-weight: 500;
       color: var(--muted); text-decoration: none;
       position: relative; padding-bottom: 4px;
       transition: color 0.3s;
@@ -114,6 +114,41 @@
     }
     .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { width: 100%; }
+
+    /* ── Hamburger ── */
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px; z-index: 1100;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    @media (max-width: 860px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: fixed; top: 0; right: 0;
+        width: 260px; height: 100vh;
+        background: rgba(13,13,26,0.97);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--border);
+        flex-direction: column;
+        justify-content: center; align-items: flex-start;
+        gap: 2rem; padding: 2rem;
+        z-index: 1050;
+        transition: transform 0.3s ease;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.1rem; }
+    }
 
     /* ─────────────────────────────────────────
        HERO
@@ -408,73 +443,6 @@
     }
 
     /* ─────────────────────────────────────────
-       EDUCATION
-    ───────────────────────────────────────── */
-    .timeline {
-      max-width: 800px; margin: 0 auto;
-      position: relative;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute; left: 20px; top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(180deg, var(--primary), var(--accent));
-      border-radius: 2px;
-    }
-    .timeline-item {
-      padding-left: 60px; margin-bottom: 2.5rem;
-      position: relative;
-    }
-    .timeline-dot {
-      position: absolute; left: 10px; top: 8px;
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      box-shadow: 0 0 0 4px rgba(108,99,255,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; color: #fff;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .timeline-item:hover .timeline-dot {
-      transform: scale(1.3);
-      box-shadow: 0 0 0 6px rgba(0,212,170,0.3);
-    }
-    .timeline-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.3rem 1.5rem;
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-    }
-    .timeline-item:hover .timeline-card {
-      transform: translateX(6px);
-      border-color: var(--primary);
-      box-shadow: 0 8px 30px var(--glow);
-    }
-    .timeline-card h4 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem;
-    }
-    .timeline-card .inst {
-      font-size: 0.88rem; color: var(--accent); font-weight: 500;
-    }
-    .timeline-card .period {
-      font-size: 0.78rem; color: var(--muted);
-      font-family: 'Fira Code', monospace; margin-top: 0.3rem;
-    }
-    .timeline-card .detail {
-      font-size: 0.83rem; color: var(--muted); margin-top: 0.4rem;
-    }
-    .cgpa {
-      display: inline-block;
-      margin-top: 0.5rem;
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--accent);
-      background: rgba(0,212,170,0.1);
-      border: 1px solid rgba(0,212,170,0.3);
-      border-radius: 20px; padding: 0.2rem 0.8rem;
-    }
-
-    /* ─────────────────────────────────────────
        CERTIFICATIONS & ACHIEVEMENTS
     ───────────────────────────────────────── */
     .cert-grid {
@@ -653,10 +621,6 @@
     @media (max-width: 768px) {
       .about-grid { grid-template-columns: 1fr; gap: 2rem; }
       .about-info { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .timeline::before { left: 14px; }
-      .timeline-dot { left: 4px; }
-      .timeline-item { padding-left: 44px; }
       .hero-btns { flex-direction: column; align-items: center; }
     }
   </style>
@@ -669,7 +633,7 @@
 <!-- ─── NAV ─── -->
 <nav id="navbar">
   <div class="nav-logo">JB.</div>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -678,6 +642,9 @@
     <li><a href="#achievements">Achievements</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <!-- ─── HERO ─── -->
@@ -960,7 +927,7 @@
 <section id="certifications">
   <div class="section-header reveal">
     <p class="section-label">// Credentials</p>
-    <h2 class="section-title">My <span></span>Certifications</span></h2>
+    <h2 class="section-title">My <span>Certifications</span></h2>
     <div class="section-line"></div>
   </div>
 
@@ -1047,11 +1014,11 @@
         <div class="c-value">janarthanan-b</div>
       </div>
     </a>
-    <a href="https://github.com" target="_blank" rel="noopener" class="contact-card reveal">
+    <a href="https://github.com/JANA111102" target="_blank" rel="noopener" class="contact-card reveal">
       <div class="c-icon">🐙</div>
       <div>
         <div class="c-label">GitHub</div>
-        <div class="c-value">View Profile</div>
+        <div class="c-value">JANA111102</div>
       </div>
     </a>
     <div class="contact-card reveal" style="cursor:default;">
@@ -1074,6 +1041,21 @@
 
 <!-- ─── SCRIPTS ─── -->
 <script>
+  /* ── Hamburger menu ── */
+  function toggleNav() {
+    const nav = document.getElementById('navLinks');
+    const ham = document.getElementById('hamburger');
+    nav.classList.toggle('open');
+    ham.classList.toggle('open');
+  }
+  // Close nav when a link is clicked
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    });
+  });
+
   /* ── Navbar scroll effect ── */
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
