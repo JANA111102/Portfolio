@@ -127,3 +127,30 @@ nav.links a.active::after{
   content:''; display:block; height:2px; border-radius:2px;
   background:var(--accent); margin-top:2px;
 }
+
+/* ── About section with photo ── */
+#about .about-inner{
+  display:flex; align-items:center; gap:56px;
+}
+#about .about-text{ flex:1; }
+#about .about-photo{
+  flex-shrink:0; width:220px; height:220px;
+}
+#about .about-photo img{
+  width:100%; height:100%; object-fit:cover;
+  border-radius:50%; border:4px solid var(--line);
+  box-shadow:0 8px 32px rgba(0,0,0,.12);
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+#about .about-photo img:hover{
+  transform:scale(1.04);
+  box-shadow:0 16px 40px rgba(0,0,0,.18);
+}
+
+@media (max-width:640px){
+  #about .about-inner{ flex-direction:column-reverse; gap:28px; }
+  #about .about-photo{ width:160px; height:160px; }
+}
+
+/* ── Project tile g5 (LensArt Studio) ── */
+.tile.g5{background:linear-gradient(155deg,#1a1a2e,#c0392b);}
