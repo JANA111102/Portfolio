@@ -267,8 +267,9 @@ h2{
 .contact-band h2{ color:#fff; max-width:none; }
 .contact-band .big-link{
   font-family:'Manrope', sans-serif; font-weight:800;
-  font-size:clamp(26px,4vw,40px); display:inline-block; margin-top:6px;
+  font-size:clamp(16px,3vw,40px); display:inline-block; margin-top:6px;
   border-bottom:2px solid transparent; transition:border-color .25s ease; color:#fff;
+  word-break:break-all;
 }
 .contact-band .big-link:hover{ border-bottom-color:var(--accent-2); }
 .contact-band .sub-row{
